@@ -1,18 +1,15 @@
-(function(module) {
-	"use strict";
+"use strict";
 
-	var Twitter = {},
-		embed = '<blockquote class="content twitter-tweet" lang="en"><a href="https://twitter.com/$1/status/$2"></a></blockquote>';
+const Twitter = module.exports;
+const embed = '<blockquote class="content twitter-tweet" lang="en"><a href="https://twitter.com/$1/status/$2"></a></blockquote>';
 
-	Twitter.parse = function(data, callback) {
-		var regularUrl = /<a href="(?:https?:\/\/)?(?:(?:(?:mobile|www)\.)?twitter\.com)\/([^\/"\s]*)\/statuse?s?\/([^\/"\s]*)(\/photo\/\d|)".*?>.+?<\/a>/g
-		var postContent = data && data.postData && data.postData.content;
+Twitter.parse = function (data) {
+	const regularUrl = /<a href="(?:https?:\/\/)?(?:(?:(?:mobile|www)\.)?twitter\.com)\/([^\/"\s]*)\/statuse?s?\/([^\/"\s]*)(\/photo\/\d|)".*?>.+?<\/a>/g
+	const postContent = data && data.postData && data.postData.content;
 
-		if (postContent && postContent.match(regularUrl)) {
-			data.postData.content = postContent.replace(regularUrl, embed);
-		}
-		callback(null, data);
-	};
+	if (postContent && postContent.match(regularUrl)) {
+		data.postData.content = postContent.replace(regularUrl, embed);
+	}
+	return data;
+};
 
-	module.exports = Twitter;
-}(module));

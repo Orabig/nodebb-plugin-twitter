@@ -16,7 +16,15 @@ $(document).ready(function () {
 		twttr.widgets.load(target);
 	}
 
-	$(window).on('action:posts.loaded action:topic.loaded', function () {
+	$(window).on('action:posts.loaded action:topic.loaded action:posts.edited', function () {
 		setTimeout(enhanceEmbed, window.twttr ? 0 : 1000);
+	});
+	$(window).on('action:ajaxify.end', () => {
+		if (!ajaxify.data.template.topic) {
+			const target = $('blockquote.twitter-tweet');
+			target.each((i, el) => {
+				twttr.widgets.load(el);
+			});
+		}
 	});
 });
