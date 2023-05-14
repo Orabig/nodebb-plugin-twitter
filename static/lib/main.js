@@ -11,19 +11,21 @@ $(document).ready(function () {
 
 	document.head.appendChild(scriptEl);
 
-	function enhanceEmbed() {
-		var target = $('ul[component="topic"]').get(0);
-		twttr.widgets.load(target);
+	function delayedLoad(el) {
+		if (!twttr) {
+			return setTimeout(delayedLoad, 1000, el);
+		}
+		twttr.widgets.load(el);
 	}
 
 	$(window).on('action:posts.loaded action:topic.loaded action:posts.edited', function () {
-		setTimeout(enhanceEmbed, window.twttr ? 0 : 1000);
+		delayedLoad($('ul[component="topic"]').get(0));
 	});
 	$(window).on('action:ajaxify.end', () => {
 		if (!ajaxify.data.template.topic) {
 			const target = $('blockquote.twitter-tweet');
 			target.each((i, el) => {
-				twttr.widgets.load(el);
+				delayedLoad(el);
 			});
 		}
 	});
