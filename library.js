@@ -1,10 +1,10 @@
 "use strict";
 
 const Twitter = module.exports;
-const embed = '<blockquote class="content twitter-tweet" lang="en"><a href="https://twitter.com/$1/status/$2"></a></blockquote>';
+const embed = '<blockquote class="content twitter-tweet" lang="en"><a href="https://x.com/$1/status/$2"></a></blockquote>';
 
 Twitter.parse = function (data) {
-	const regularUrl = /<a href="(?:https?:\/\/)?(?:(?:(?:mobile|www)\.)?twitter\.com)\/([^\/"\s]*)\/statuse?s?\/([^\/"\s]*)(\/photo\/\d|)".*?>.+?<\/a>/g
+	const regularUrl = /<a href="(?:https?:\/\/)?(?:(?:(?:mobile|www)\.)?(?:x|twitter)\.com)\/([^\/"\s]*)\/statuse?s?\/([^\/"\s]*)(\/photo\/\d|)".*?>.+?<\/a>/g
 	const postContent = data && data.postData && data.postData.content;
 
 	if (postContent && postContent.match(regularUrl)) {
